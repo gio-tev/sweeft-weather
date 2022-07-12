@@ -5,4 +5,5 @@ export const colors = {
   primaryGreen: '#A0C184',
   primaryGreenDark: '#82bf4e',
   primaryCream: '#D2D1CD',
+  error: '#e65050',
 };

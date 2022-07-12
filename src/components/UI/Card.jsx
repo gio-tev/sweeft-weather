@@ -1,22 +1,41 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { colors } from '../../utils/colors';
 import Button from './Button';
 
 const Card = ({ city, data }) => {
-  console.log(data, './.ttt');
+  const { current } = data;
+
+  const time = new Date(current.dt * 1000).toLocaleString();
+  const weather =
+    current.weather[0].main.charAt(0).toUpperCase() + current.weather[0].main.slice(1);
+  const icon = `http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`;
+  const feelsLike = current.feels_like.toFixed();
+  const temperature = current.temp.toFixed();
+
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <View style={styles.cityCelsiusContainer}>
-          <Text style={styles.cityClesius}>{city}</Text>
-          <Text style={styles.currentFeels}>current time</Text>
+        <View style={styles.cityTimeContainer}>
+          <Text style={styles.city}>{city}</Text>
+          <Text style={styles.timeWeatherFeels}>{time}</Text>
         </View>
-        <View style={styles.windHumidityContainer}>
-          <Text style={styles.windHumidity}>Wind speed</Text>
-          <Text style={styles.windHumidity}>Humidity</Text>
-          <Text style={styles.windHumidity}>weather</Text>
+
+        <View>
+          <View style={styles.weatherImageContainer}>
+            <Text style={styles.timeWeatherFeels}>{weather}</Text>
+            <Image style={styles.image} source={{ uri: icon }} />
+          </View>
+
+          <View style={styles.flexDirRow}>
+            <Text style={styles.timeWeatherFeels}>Feels like: {feelsLike}</Text>
+            <MaterialCommunityIcons
+              name="temperature-celsius"
+              size={10}
+              color={colors.primaryGreen}
+            />
+          </View>
         </View>
       </View>
 
@@ -27,17 +46,14 @@ const Card = ({ city, data }) => {
         >
           See 7 Day Forecast
         </Button>
-        <View style={styles.cityCelsiusContainer}>
-          <Text style={styles.currentFeels}>Feels like:</Text>
 
-          <View style={styles.tempContainer}>
-            <Text style={styles.cityClesius}>temp</Text>
-            <MaterialCommunityIcons
-              name="temperature-celsius"
-              size={18}
-              color={colors.primaryGreen}
-            />
-          </View>
+        <View style={styles.flexDirRow}>
+          <Text style={styles.celsius}>{temperature}</Text>
+          <MaterialCommunityIcons
+            name="temperature-celsius"
+            size={18}
+            color={colors.primaryGreen}
+          />
         </View>
       </View>
     </View>
@@ -49,7 +65,6 @@ export default Card;
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',
-    // alignItems: 'center',
     height: '30%',
     width: '90%',
     backgroundColor: colors.secondaryBlack,
@@ -57,49 +72,41 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     elevation: 3,
     paddingTop: 5,
-    paddingBottom: 7,
+    paddingBottom: 10,
     paddingHorizontal: 20,
   },
   innerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
   },
-  cityCelsiusContainer: {
-    // flexDirection: 'row',
-    justifyContent: 'space-between',
+  cityTimeContainer: {
+    alignSelf: 'flex-end',
   },
-  windHumidityContainer: {
-    // flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  tempContainer: {
+  flexDirRow: {
     flexDirection: 'row',
   },
-  cityClesius: {
+  city: {
     color: colors.primaryCream,
-    fontSize: 25,
+    fontSize: 22,
   },
-  currentFeels: {
+  celsius: {
     color: colors.primaryCream,
-    //   fontSize: 25,
+    fontSize: 40,
+  },
+  timeWeatherFeels: {
+    color: colors.primaryCream,
     fontWeight: '300',
     fontSize: 12,
   },
-  windHumidity: {
-    color: colors.primaryCream,
-    //   fontSize: 25,
-    fontWeight: '300',
-    fontSize: 12,
-  },
+
   btn: {
     width: '60%',
     padding: 8,
-    // backgroundColor: colors.primaryGreen,
+    backgroundColor: colors.primaryBlack,
     borderColor: colors.primaryGreen,
     borderWidth: 0.5,
     borderRadius: 10,
-    // alignSelf: 'center',
+    alignSelf: 'center',
   },
   btnTxt: {
     color: colors.primaryGreen,
@@ -107,6 +114,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   pressed: {
-    backgroundColor: colors.primaryBlack,
+    backgroundColor: colors.secondaryBlack,
+  },
+  weatherImageContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  image: {
+    width: 35,
+    height: 35,
   },
 });

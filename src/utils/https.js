@@ -1,13 +1,12 @@
 export const getData = async (lat, lon) => {
   try {
     const res = await fetch(
-      `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,alerts
-          &units=metric&appid=911ccc29d926a3c397e879ac5148feea`
+      `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,daily,alerts
+      &units=metric&appid=911ccc29d926a3c397e879ac5148feea`
     );
 
-    if (!res.ok) {
-      throw new Error('Something went wrong');
-    }
+    if (!res.ok) throw new Error('Error');
+
     const data = await res.json();
 
     return data;
