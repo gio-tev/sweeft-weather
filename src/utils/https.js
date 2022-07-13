@@ -1,15 +1,16 @@
-export const getData = async (lat, lon) => {
+import { API_KEY } from '@env';
+
+export const getData = async (coords, exclude) => {
   try {
     const res = await fetch(
-      `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,daily,alerts
-      &units=metric&appid=911ccc29d926a3c397e879ac5148feea`
+      `https://api.openweathermap.org/data/3.0/onecall?lat=${coords.lat}&lon=${
+        coords.lon
+      }&exclude=${exclude.join()}&units=metric&appid=${API_KEY}`
     );
 
     if (!res.ok) throw new Error('Error');
 
-    const data = await res.json();
-
-    return data;
+    return await res.json();
   } catch (error) {
     return error.message;
   }

@@ -12,13 +12,15 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
 
-  const { tbiCoords, kutCoords, batCoords } = coords;
+  const { Tbilisi, Kutaisi, Batumi } = coords;
+
+  const exclude = ['minutely', 'hourly', 'daily', 'alerts'];
 
   useEffect(() => {
     const fetchData = async () => {
-      const resTbi = await getData(tbiCoords.lat, tbiCoords.lon);
-      const resKut = await getData(kutCoords.lat, kutCoords.lon);
-      const resBat = await getData(batCoords.lat, batCoords.lon);
+      const resTbi = await getData(Tbilisi, exclude);
+      const resKut = await getData(Kutaisi, exclude);
+      const resBat = await getData(Batumi, exclude);
 
       if (resTbi === 'Error' || resKut === 'Error' || resBat === 'Error') {
         setFetchError(true);
@@ -64,6 +66,6 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginTop: 40,
+    // marginTop: 30,
   },
 });

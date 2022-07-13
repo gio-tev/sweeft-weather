@@ -1,35 +1,40 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+// import { Feather } from '@expo/vector-icons';
+import { format } from 'date-fns';
 
 import { colors } from '../../utils/colors';
 import Button from './Button';
+import { getCurrentVariables } from '../../utils/variables';
 
 const Card = ({ city, data }) => {
+  const navigation = useNavigation();
+
   const { current } = data;
 
-  const time = new Date(current.dt * 1000).toLocaleString();
-  const weather =
-    current.weather[0].main.charAt(0).toUpperCase() + current.weather[0].main.slice(1);
-  const icon = `http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`;
-  const feelsLike = current.feels_like.toFixed();
-  const temperature = current.temp.toFixed();
+  const { time, weather, feelsLike, temperature, icon } = getCurrentVariables(current);
+
+  const handleWeekPress = () => {
+    navigation.navigate('OneWeekForecast', { city });
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <View style={styles.cityTimeContainer}>
           <Text style={styles.city}>{city}</Text>
-          <Text style={styles.timeWeatherFeels}>{time}</Text>
+          <Text style={styles.text}>{time}</Text>
         </View>
 
         <View>
           <View style={styles.weatherImageContainer}>
-            <Text style={styles.timeWeatherFeels}>{weather}</Text>
+            <Text style={styles.text}>{weather}</Text>
             <Image style={styles.image} source={{ uri: icon }} />
           </View>
 
           <View style={styles.flexDirRow}>
-            <Text style={styles.timeWeatherFeels}>Feels like: {feelsLike}</Text>
+            <Text style={styles.text}>Feels like: {feelsLike}</Text>
             <MaterialCommunityIcons
               name="temperature-celsius"
               size={10}
@@ -43,10 +48,10 @@ const Card = ({ city, data }) => {
         <Button
           pressable={({ pressed }) => [styles.btn, pressed && styles.pressed]}
           text={styles.btnTxt}
+          onPress={handleWeekPress}
         >
           See 7 Day Forecast
         </Button>
-
         <View style={styles.flexDirRow}>
           <Text style={styles.celsius}>{temperature}</Text>
           <MaterialCommunityIcons
@@ -93,12 +98,11 @@ const styles = StyleSheet.create({
     color: colors.primaryCream,
     fontSize: 40,
   },
-  timeWeatherFeels: {
+  text: {
     color: colors.primaryCream,
     fontWeight: '300',
     fontSize: 12,
   },
-
   btn: {
     width: '60%',
     padding: 8,
@@ -123,5 +127,15 @@ const styles = StyleSheet.create({
   image: {
     width: 35,
     height: 35,
+  },
+  sunRiseSet: {
+    // flexDirection: 'row',
+    // justifyContent: 'space-evenly',
+    // paddingVertical: 2,
+    // borderRadius: 3,
+    // backgroundColor: colors.primaryBlack,
+    // paddingHorizontal: 0,
+    // borderColor: colors.primaryGreen,
+    // borderWidth: 0.5,
   },
 });
