@@ -6,13 +6,15 @@ import { getData } from '../utils/https';
 import { colors } from '../utils/colors';
 import Error from '../components/Error';
 import OneWeekContent from '../components/one-week/OneWeekContent';
+import { showToast } from '../utils/toast';
 
 const OneWeekForecast = ({ route }) => {
   const [dailyForecast, setDailyForecast] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
 
-  const { city } = route.params;
+  const { city, networkAvailable } = route.params;
+
   const cityCoords = coords[city];
   const exclude = ['current', 'minutely', 'hourly', 'alerts'];
 
@@ -37,6 +39,8 @@ const OneWeekForecast = ({ route }) => {
     setIsLoading(true);
     setFetchError(false);
   };
+
+  if (!networkAvailable) showToast('No internet connection');
 
   return (
     <View>

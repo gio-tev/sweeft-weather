@@ -1,19 +1,28 @@
 import { useState, useEffect } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 
 import Card from '../components/UI/card/Card';
 import Error from '../components/Error';
 import { getData } from '../utils/https';
 import { coords } from '../utils/coords';
 import { colors } from '../utils/colors';
+import { showToast } from '../utils/toast';
 
 const Home = () => {
+  const [networkAvailable, setNetworkAvailable] = useState(true);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
 
   const { Tbilisi, Kutaisi, Batumi } = coords;
   const exclude = ['minutely', 'hourly', 'daily', 'alerts'];
+
+  useEffect(() => {
+    NetInfo.addEventListener(state => {
+      setNetworkAvailable(state.isConnected);
+    });
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +50,8 @@ const Home = () => {
     setFetchError(false);
   };
 
+  if (!networkAvailable) showToast('No internet connection');
+
   return (
     <View style={styles.container}>
       {!isLoading && fetchError && <Error onRefresh={refresh} />}
@@ -51,9 +62,9 @@ const Home = () => {
 
       {!isLoading && !fetchError && (
         <>
-          <Card city="Tbilisi" data={data.tbilisi} />
-          <Card city="Kutaisi" data={data.kutaisi} />
-          <Card city="Batumi" data={data.batumi} />
+          <Card city="Tbilisi" data={data.tbilisi} networkAvailable={networkAvailable} />
+          <Card city="Kutaisi" data={data.kutaisi} networkAvailable={networkAvailable} />
+          <Card city="Batumi" data={data.batumi} networkAvailable={networkAvailable} />
         </>
       )}
     </View>

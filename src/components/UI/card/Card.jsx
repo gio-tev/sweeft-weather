@@ -6,13 +6,14 @@ import { getCurrentVariables } from '../../../utils/variables';
 import { styles } from './cardStyles';
 import { celsiusIcon } from '../../../utils/icons';
 
-const Card = ({ city, data }) => {
+const Card = ({ city, data, networkAvailable }) => {
   const navigation = useNavigation();
 
   const { current } = data;
   const { time, weather, feelsLike, temperature, icon } = getCurrentVariables(current);
 
-  const handleWeekPress = () => navigation.navigate('OneWeekForecast', { city });
+  const handleWeekPress = () =>
+    navigation.navigate('OneWeekForecast', { city, networkAvailable });
 
   return (
     <View style={styles.container}>
