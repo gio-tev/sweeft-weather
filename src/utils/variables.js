@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 
 export const getCurrentVariables = data => {
   const icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-  const time = format(new Date(data.dt * 1000), 'EEE, LLLL d p');
+  const time = format(new Date(data.dt * 1000), 'EEE, LLLL d, p');
   const weather = data.weather[0].main;
   const feelsLike = data.feels_like.toFixed();
   const temperature = data.temp.toFixed();
@@ -18,6 +18,7 @@ export const getCurrentVariables = data => {
 
 export const getDailyVariables = data => {
   const icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+  const weather = data.weather[0].main;
   const description =
     data.weather[0].description.charAt(0).toUpperCase() +
     data.weather[0].description.slice(1);
@@ -29,12 +30,13 @@ export const getDailyVariables = data => {
   const night = data.temp.night.toFixed();
   const sunrise = format(new Date(data.sunrise * 1000), 'p');
   const sunset = format(new Date(data.sunset * 1000), 'p');
-  const windSpeed = data.wind_speed.toFixed();
+  const wind = data.wind_speed.toFixed();
   const humidity = data.humidity.toFixed();
 
   return {
     icon,
     description,
+    weather,
     min,
     max,
     morning,
@@ -43,7 +45,7 @@ export const getDailyVariables = data => {
     night,
     sunrise,
     sunset,
-    windSpeed,
+    wind,
     humidity,
   };
 };

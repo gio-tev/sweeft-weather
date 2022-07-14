@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
-import Card from '../components/UI/Card';
+import Card from '../components/UI/card/Card';
 import Error from '../components/Error';
 import { getData } from '../utils/https';
 import { coords } from '../utils/coords';
@@ -13,7 +13,6 @@ const Home = () => {
   const [fetchError, setFetchError] = useState(false);
 
   const { Tbilisi, Kutaisi, Batumi } = coords;
-
   const exclude = ['minutely', 'hourly', 'daily', 'alerts'];
 
   useEffect(() => {
@@ -66,6 +65,5 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    // marginTop: 30,
   },
 });

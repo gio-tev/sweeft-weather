@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, View, Text, StyleSheet } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 import { coords } from '../utils/coords';
 import { getData } from '../utils/https';
@@ -13,9 +13,7 @@ const OneWeekForecast = ({ route }) => {
   const [fetchError, setFetchError] = useState(false);
 
   const { city } = route.params;
-
   const cityCoords = coords[city];
-
   const exclude = ['current', 'minutely', 'hourly', 'alerts'];
 
   useEffect(() => {
@@ -28,9 +26,7 @@ const OneWeekForecast = ({ route }) => {
         return;
       }
 
-      const oneWeek = res.daily.slice(0, 7);
-
-      setDailyForecast(oneWeek);
+      setDailyForecast(res.daily);
       setIsLoading(false);
     };
 
@@ -60,7 +56,3 @@ const OneWeekForecast = ({ route }) => {
 };
 
 export default OneWeekForecast;
-
-const styles = StyleSheet.create({
-  container: {},
-});

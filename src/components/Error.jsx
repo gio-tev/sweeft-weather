@@ -4,9 +4,7 @@ import { colors } from '../utils/colors';
 import Button from './UI/Button';
 
 const Error = ({ onRefresh }) => {
-  const handleRefresh = () => {
-    onRefresh();
-  };
+  const handleRefresh = () => onRefresh();
 
   return (
     <>
