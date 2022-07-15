@@ -1,19 +1,22 @@
-import { View, Text, Image } from 'react-native';
+import { View, Text, FlatList, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import Button from '../Button';
 import { getCurrentVariables } from '../../../utils/variables';
 import { styles } from './cardStyles';
 import { celsiusIcon } from '../../../utils/icons';
+import HourlyItem from '../../HourlyItem';
 
 const Card = ({ city, data, networkAvailable }) => {
   const navigation = useNavigation();
 
-  const { current } = data;
+  const { current } = data.current;
+  const { hourly } = data;
+
   const { time, weather, feelsLike, temperature, icon } = getCurrentVariables(current);
 
   const handleWeekPress = () =>
-    navigation.navigate('OneWeekForecast', { city, networkAvailable });
+    navigation.navigate('WeeklyForecast', { city, networkAvailable });
 
   return (
     <View style={styles.container}>
@@ -34,6 +37,16 @@ const Card = ({ city, data, networkAvailable }) => {
             {celsiusIcon(10)}
           </View>
         </View>
+      </View>
+
+      <View>
+        <FlatList
+          data={hourly}
+          renderItem={({ item }) => <HourlyItem item={item} />}
+          keyExtractor={item => item.dt}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        />
       </View>
 
       <View style={styles.innerContainer}>

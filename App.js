@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { colors } from './src/utils/colors';
 import Home from './src/screens/Home';
-import OneWeekForecast from './src/screens/OneWeekForecast';
+import WeeklyForecast from './src/screens/WeeklyForecast';
 
 const Stack = createStackNavigator();
 
@@ -16,13 +16,9 @@ export default function App() {
         screenOptions={{
           title: 'Sweeft Weather',
           headerStyle: {
-            height: 120,
             backgroundColor: colors.primaryBlack,
           },
           headerTitleAlign: 'center',
-          headerTitleStyle: {
-            fontSize: 20,
-          },
           headerBackTitleVisible: false,
           headerTintColor: colors.primaryGreen,
           headerShadowVisible: false,
@@ -32,7 +28,7 @@ export default function App() {
         }}
       >
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="OneWeekForecast" component={OneWeekForecast} />
+        <Stack.Screen name="WeeklyForecast" component={WeeklyForecast} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../../../utils/colors';
 
-const WeekCard = ({ data, icon }) => {
+const TodaysForecastItem = ({ data, icon }) => {
   const label1 = Object.keys(data)[0][0].toUpperCase(0) + Object.keys(data)[0].slice(1);
   const label2 = Object.keys(data)[1][0].toUpperCase(0) + Object.keys(data)[1].slice(1);
 
@@ -12,7 +12,7 @@ const WeekCard = ({ data, icon }) => {
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <Text style={styles.text}>
-          {label1}: {label1 === 'Wind' ? `${value1}m/s` : value1}
+          {label1}: {label1 === 'Wind' ? `${value1} m/s` : value1}
         </Text>
         {icon && icon}
       </View>
@@ -26,20 +26,22 @@ const WeekCard = ({ data, icon }) => {
   );
 };
 
-export default WeekCard;
+export default TodaysForecastItem;
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 10,
-    backgroundColor: colors.secondaryBlack,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomColor: colors.primaryGreen,
+    borderBottomWidth: 0.25,
     margin: 5,
-    paddingVertical: 7,
-    paddingHorizontal: 15,
+    paddingVertical: 5,
   },
   innerContainer: {
     flexDirection: 'row',
   },
   text: {
     color: colors.primaryCream,
+    fontSize: 12,
   },
 });

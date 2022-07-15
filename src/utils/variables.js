@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 
 export const getCurrentVariables = data => {
   const icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-  const time = format(new Date(data.dt * 1000), 'EEE, LLLL d, p');
+  const time = format(new Date(data.dt * 1000), 'EEE, LLLL d p');
   const weather = data.weather[0].main;
   const feelsLike = data.feels_like.toFixed();
   const temperature = data.temp.toFixed();
@@ -12,6 +12,18 @@ export const getCurrentVariables = data => {
     time,
     weather,
     feelsLike,
+    temperature,
+  };
+};
+
+export const getHourlyVariables = data => {
+  const icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+  const time = format(new Date(data.dt * 1000), 'p');
+  const temperature = data.temp.toFixed();
+
+  return {
+    icon,
+    time,
     temperature,
   };
 };

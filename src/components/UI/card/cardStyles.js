@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.primaryBlack,
     borderColor: colors.primaryGreen,
     borderWidth: 0.5,
-    borderRadius: 10,
+    borderRadius: 5,
     alignSelf: 'center',
   },
   btnTxt: {

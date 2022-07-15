@@ -15,9 +15,6 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
 
-  const { Tbilisi, Kutaisi, Batumi } = coords;
-  const exclude = ['minutely', 'hourly', 'daily', 'alerts'];
-
   useEffect(() => {
     NetInfo.addEventListener(state => {
       setNetworkAvailable(state.isConnected);
@@ -26,17 +23,40 @@ const Home = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const resTbi = await getData(Tbilisi, exclude);
-      const resKut = await getData(Kutaisi, exclude);
-      const resBat = await getData(Batumi, exclude);
+      const { Tbilisi, Kutaisi, Batumi } = coords;
 
-      if (resTbi === 'Error' || resKut === 'Error' || resBat === 'Error') {
+      const excludeExceptCurrent = ['hourly', 'minutely', 'daily', 'alerts'];
+      const excludeExceptHourly = ['current', 'minutely', 'daily', 'alerts'];
+
+      const resTbCur = await getData(Tbilisi, excludeExceptCurrent);
+      const resKuCur = await getData(Kutaisi, excludeExceptCurrent);
+      const resBaCur = await getData(Batumi, excludeExceptCurrent);
+
+      const resTbHouly = await getData(Tbilisi, excludeExceptHourly);
+      const resKuHouly = await getData(Kutaisi, excludeExceptHourly);
+      const resBaHouly = await getData(Batumi, excludeExceptHourly);
+
+      if (
+        resTbCur === 'Error' ||
+        resKuCur === 'Error' ||
+        resBaCur === 'Error' ||
+        resTbHouly === 'Error' ||
+        resKuHouly === 'Error' ||
+        resBaHouly === 'Error'
+      ) {
         setFetchError(true);
         setIsLoading(false);
         return;
       }
+      const tbilisiHourly = resTbHouly?.hourly.slice(1, 13);
+      const kutaisiHourly = resKuHouly?.hourly.slice(1, 13);
+      const batumiHourly = resBaHouly?.hourly.slice(1, 13);
 
-      const result = { tbilisi: resTbi, kutaisi: resKut, batumi: resBat };
+      const result = {
+        tbilisi: { current: resTbCur, hourly: tbilisiHourly },
+        kutaisi: { current: resKuCur, hourly: kutaisiHourly },
+        batumi: { current: resBaCur, hourly: batumiHourly },
+      };
 
       setData(result);
       setIsLoading(false);
@@ -75,6 +95,8 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
 });

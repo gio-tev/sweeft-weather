@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
 import { coords } from '../utils/coords';
 import { getData } from '../utils/https';
 import { colors } from '../utils/colors';
 import Error from '../components/Error';
-import OneWeekContent from '../components/one-week/OneWeekContent';
+import WeeklyContent from '../components/weekly/WeeklyContent';
 import { showToast } from '../utils/toast';
 
-const OneWeekForecast = ({ route }) => {
+const WeeklyForecast = ({ route }) => {
   const [dailyForecast, setDailyForecast] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
@@ -43,7 +43,7 @@ const OneWeekForecast = ({ route }) => {
   if (!networkAvailable) showToast('No internet connection');
 
   return (
-    <View>
+    <View style={styles.container}>
       {!isLoading && fetchError && <Error onRefresh={refresh} />}
 
       {isLoading && !fetchError && (
@@ -52,11 +52,18 @@ const OneWeekForecast = ({ route }) => {
 
       {!isLoading && !fetchError && (
         <>
-          <OneWeekContent city={city} data={dailyForecast} />
+          <WeeklyContent city={city} data={dailyForecast} />
         </>
       )}
     </View>
   );
 };
 
-export default OneWeekForecast;
+export default WeeklyForecast;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+});

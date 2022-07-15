@@ -2,10 +2,10 @@ import { View, Text, Image } from 'react-native';
 import { format } from 'date-fns';
 
 import { getDailyVariables } from '../../../utils/variables';
-import { styles } from './dayItemStyles';
+import { styles } from './weeklyCardStyles';
 import { celsiusIcon } from '../../../utils/icons';
 
-const DayItem = ({ item, todaysData }) => {
+const WeeklyCard = ({ item, todaysData }) => {
   const { max, min, weather, icon } = getDailyVariables(item);
 
   const weekDay =
@@ -16,6 +16,7 @@ const DayItem = ({ item, todaysData }) => {
       <View style={[styles.innerContainer, styles.weekDayWidth]}>
         <Text style={styles.text}>{weekDay}</Text>
       </View>
+
       <View style={styles.innerContainer}>
         <View style={styles.celsius}>
           <Text style={styles.text}>{max}</Text>
@@ -38,4 +39,4 @@ const DayItem = ({ item, todaysData }) => {
   );
 };
 
-export default DayItem;
+export default WeeklyCard;
