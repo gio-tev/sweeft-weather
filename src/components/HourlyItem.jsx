@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     backgroundColor: colors.primaryBlack,
-    marginRight: 6,
-    padding: 7.2,
+    marginRight: 6.2,
+    padding: 7,
     borderRadius: 5,
   },
   hour: {

@@ -35,20 +35,19 @@ export const styles = StyleSheet.create({
   text: {
     color: colors.primaryCream,
     fontWeight: '300',
-    fontSize: 12,
+    fontSize: 11,
   },
   btn: {
-    width: '60%',
+    width: '70%',
     padding: 10,
     backgroundColor: colors.primaryBlack,
     borderColor: colors.primaryGreen,
     borderWidth: 0.3,
-    borderRadius: 5,
+    borderRadius: 7,
     alignSelf: 'center',
   },
   btnTxt: {
     color: colors.primaryGreen,
-    fontSize: 16,
     textAlign: 'center',
   },
   pressed: {
