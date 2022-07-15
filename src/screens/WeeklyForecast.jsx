@@ -16,11 +16,11 @@ const WeeklyForecast = ({ route }) => {
   const { city, networkAvailable } = route.params;
 
   const cityCoords = coords[city];
-  const exclude = ['current', 'minutely', 'hourly', 'alerts'];
+  const excludeExceptDaily = ['current', 'minutely', 'hourly', 'alerts'];
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getData(cityCoords, exclude);
+      const res = await getData(cityCoords, excludeExceptDaily);
 
       if (res === 'Error') {
         setFetchError(true);
@@ -43,19 +43,23 @@ const WeeklyForecast = ({ route }) => {
   if (!networkAvailable) showToast('No internet connection');
 
   return (
-    <View style={styles.container}>
-      {!isLoading && fetchError && <Error onRefresh={refresh} />}
-
+    <>
       {isLoading && !fetchError && (
-        <ActivityIndicator size="large" color={colors.primaryGreen} />
+        <View style={styles.activityIndecator}>
+          <ActivityIndicator size="large" color={colors.primaryGreen} />
+        </View>
       )}
 
-      {!isLoading && !fetchError && (
-        <>
-          <WeeklyContent city={city} data={dailyForecast} />
-        </>
-      )}
-    </View>
+      <View style={styles.container}>
+        {!isLoading && fetchError && <Error onRefresh={refresh} />}
+
+        {!isLoading && !fetchError && (
+          <>
+            <WeeklyContent city={city} data={dailyForecast} />
+          </>
+        )}
+      </View>
+    </>
   );
 };
 
@@ -65,5 +69,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+  },
+  activityIndecator: {
+    marginTop: 50,
   },
 });

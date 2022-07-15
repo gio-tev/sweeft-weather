@@ -39,10 +39,10 @@ export const styles = StyleSheet.create({
   },
   btn: {
     width: '60%',
-    padding: 8,
+    padding: 10,
     backgroundColor: colors.primaryBlack,
     borderColor: colors.primaryGreen,
-    borderWidth: 0.5,
+    borderWidth: 0.3,
     borderRadius: 5,
     alignSelf: 'center',
   },

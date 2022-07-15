@@ -16,9 +16,7 @@ const Home = () => {
   const [fetchError, setFetchError] = useState(false);
 
   useEffect(() => {
-    NetInfo.addEventListener(state => {
-      setNetworkAvailable(state.isConnected);
-    });
+    NetInfo.addEventListener(state => setNetworkAvailable(state.isConnected));
   }, []);
 
   useEffect(() => {
@@ -73,21 +71,33 @@ const Home = () => {
   if (!networkAvailable) showToast('No internet connection');
 
   return (
-    <View style={styles.container}>
-      {!isLoading && fetchError && <Error onRefresh={refresh} />}
-
+    <>
       {isLoading && !fetchError && (
-        <ActivityIndicator size="large" color={colors.primaryGreen} />
+        <View style={styles.activityIndecator}>
+          <ActivityIndicator size="large" color={colors.primaryGreen} />
+        </View>
       )}
 
-      {!isLoading && !fetchError && (
-        <>
-          <Card city="Tbilisi" data={data.tbilisi} networkAvailable={networkAvailable} />
-          <Card city="Kutaisi" data={data.kutaisi} networkAvailable={networkAvailable} />
-          <Card city="Batumi" data={data.batumi} networkAvailable={networkAvailable} />
-        </>
-      )}
-    </View>
+      <View style={styles.container}>
+        {!isLoading && fetchError && <Error onRefresh={refresh} />}
+
+        {!isLoading && !fetchError && (
+          <>
+            <Card
+              city="Tbilisi"
+              data={data.tbilisi}
+              networkAvailable={networkAvailable}
+            />
+            <Card
+              city="Kutaisi"
+              data={data.kutaisi}
+              networkAvailable={networkAvailable}
+            />
+            <Card city="Batumi" data={data.batumi} networkAvailable={networkAvailable} />
+          </>
+        )}
+      </View>
+    </>
   );
 };
 
@@ -98,5 +108,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  activityIndecator: {
+    marginTop: 50,
   },
 });
